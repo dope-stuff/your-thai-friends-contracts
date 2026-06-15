@@ -12,6 +12,7 @@ export const VibeSchema = z.object({
   hero: MediaRef.optional(),
   /** Display order on the homepage. */
   order: z.number().int().nonnegative().optional(),
+  isPublished: z.boolean().default(false),
   locale: z.string().optional(),
   ...timestamps,
 });

@@ -9,6 +9,7 @@ export const DestinationSchema = z.object({
   geo: GeoPoint.optional(),
   description: z.string().optional(),
   hero: MediaRef.optional(),
+  isPublished: z.boolean().default(false),
   locale: z.string().optional(),
   ...timestamps,
 });

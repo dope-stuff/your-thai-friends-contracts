@@ -14,11 +14,24 @@ export const BookingLookupInput = z
   });
 export type BookingLookupInput = z.infer<typeof BookingLookupInput>;
 
-/** Submit "Your Trip" as an enquiry (no charge in v1). */
+/** One bookable item in an enquiry, with the dates/guests the user selected. */
+export const EnquiryItemInput = z.object({
+  listingId: id,
+  startDate: z.string().date().optional(),
+  endDate: z.string().date().optional(),
+  guests: z.string().optional(),
+});
+export type EnquiryItemInput = z.infer<typeof EnquiryItemInput>;
+
+/**
+ * Submit "Your Trip" as an enquiry (no charge in v1). We create a traveller
+ * account from contactEmail if one doesn't exist, so bookings always link.
+ */
 export const EnquiryCreateInput = z.object({
-  items: z.array(z.object({ listingId: id })).min(1),
+  items: z.array(EnquiryItemInput).min(1),
   contactEmail: z.string().email(),
   contactPhone: z.string().min(1),
+  contactName: z.string().optional(),
   note: z.string().optional(),
 });
 export type EnquiryCreateInput = z.infer<typeof EnquiryCreateInput>;

@@ -46,3 +46,15 @@ export type SavedKind = z.infer<typeof SavedKind>;
 
 export const Currency = z.enum(["THB"]);
 export type Currency = z.infer<typeof Currency>;
+
+/** Ledger entry kind for billing/commission. */
+export const TransactionKind = z.enum([
+  "booking_commission",
+  "payout",
+  "refund",
+  "adjustment",
+]);
+export type TransactionKind = z.infer<typeof TransactionKind>;
+
+export const TransactionStatus = z.enum(["pending", "settled", "void"]);
+export type TransactionStatus = z.infer<typeof TransactionStatus>;

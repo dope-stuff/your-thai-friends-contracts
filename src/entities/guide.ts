@@ -20,6 +20,7 @@ export const GuideSchema = z.object({
   packingChecklist: z.array(z.string()).default([]),
   /** Gated content: locked unless the viewer has a booking in this destination. */
   unlocksOnBooking: z.boolean().default(true),
+  isPublished: z.boolean().default(false),
   locale: z.string().optional(),
   ...timestamps,
 });

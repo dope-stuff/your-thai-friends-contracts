@@ -8,6 +8,15 @@ Consumers pin a tag (e.g. `#v0.1.0`), so **every change must bump the version an
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-06-15
+
+### Added
+- `Transaction` entity (billing/commission ledger) + `TransactionKind` / `TransactionStatus` enums.
+- `EnquiryItemInput` — per-item `startDate` / `endDate` / `guests`; `EnquiryCreateInput` gains
+  `contactName` (manual availability flow: user picks dates, you confirm with partners).
+- `isPublished` boolean on `Destination`, `Guide`, `Vibe` (own publish flag — Strapi draft/publish
+  is off; see ADR 0005).
+
 ## [0.2.0] - 2026-06-15
 
 ### Added
@@ -37,6 +46,7 @@ Consumers pin a tag (e.g. `#v0.1.0`), so **every change must bump the version an
 - Dual ESM+CJS build with type declarations via `tsup`.
 - Canonical system spec `ARCHITECTURE.md`.
 
-[Unreleased]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/your-thai-friends/your-thai-friends-contracts/releases/tag/v0.1.0

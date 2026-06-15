@@ -11,6 +11,7 @@ export * from "./entities/vibe";
 export * from "./entities/guide";
 export * from "./entities/itinerary";
 export * from "./entities/booking";
+export * from "./entities/transaction";
 export * from "./entities/cart";
 export * from "./entities/saved";
 export * from "./entities/newsletter";
