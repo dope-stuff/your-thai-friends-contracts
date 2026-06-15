@@ -9,6 +9,7 @@ export const DestinationSchema = z.object({
   geo: GeoPoint.optional(),
   description: z.string().optional(),
   hero: MediaRef.optional(),
+  locale: z.string().optional(),
   ...timestamps,
 });
 export type Destination = z.infer<typeof DestinationSchema>;

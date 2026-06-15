@@ -8,6 +8,21 @@ Consumers pin a tag (e.g. `#v0.1.0`), so **every change must bump the version an
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-06-15
+
+### Added
+- `Vibe` entity (curated taxonomy / page metadata).
+- Listing per-type detail schemas (`StayDetails`, `ExperienceDetails`, `LearnDetails`) +
+  `ListingDetailsByType` / `detailsSchemaFor(type)` for service-layer validation of `details` jsonb.
+- Listing promoted filter columns (`summary`, `durationHours`, `maxGuests`, `level`) and
+  `vibeSlugs` taxonomy array.
+- `Partner.commissionRate`.
+- Optional `locale` on i18n-enabled editorial entities (Partner, Destination, Listing, Guide, Vibe).
+
+### Changed
+- Listing model reworked: single-table strategy — real filter columns + jsonb `details` tail
+  (see ADR 0003).
+
 ## [0.1.0] - 2026-06-15
 
 ### Added
@@ -22,5 +37,6 @@ Consumers pin a tag (e.g. `#v0.1.0`), so **every change must bump the version an
 - Dual ESM+CJS build with type declarations via `tsup`.
 - Canonical system spec `ARCHITECTURE.md`.
 
-[Unreleased]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/your-thai-friends/your-thai-friends-contracts/releases/tag/v0.1.0

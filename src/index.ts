@@ -7,6 +7,7 @@ export * from "./entities/user";
 export * from "./entities/partner";
 export * from "./entities/destination";
 export * from "./entities/listing";
+export * from "./entities/vibe";
 export * from "./entities/guide";
 export * from "./entities/itinerary";
 export * from "./entities/booking";

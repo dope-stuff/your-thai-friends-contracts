@@ -2,7 +2,8 @@ import { z } from "zod";
 import { id, timestamps, GeoPoint, MediaRef, Socials } from "../common";
 import { PartnerStatus } from "../enums";
 
-/** A "Local Friend" — the host who owns inventory. */
+/** A "Local Friend" — the host who owns inventory. Vertical-agnostic: one
+ *  partner can offer stay + experience + learn listings. */
 export const PartnerSchema = z.object({
   id,
   name: z.string().min(1),
@@ -13,9 +14,12 @@ export const PartnerSchema = z.object({
   avatar: MediaRef.optional(),
   cover: MediaRef.optional(),
   socials: Socials.optional(),
+  /** Marketplace commission, 0..1 (e.g. 0.15). Payout ledger deferred. */
+  commissionRate: z.number().min(0).max(1).optional(),
   status: PartnerStatus,
   /** The host User who owns this partner record. */
   ownerUserId: id.optional(),
+  locale: z.string().optional(),
   ...timestamps,
 });
 export type Partner = z.infer<typeof PartnerSchema>;
