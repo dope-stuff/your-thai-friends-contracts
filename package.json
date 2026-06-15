@@ -1,6 +1,6 @@
 {
   "name": "@ytf/contracts",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Shared domain types and Zod schemas for Your Thai Friends",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -19,7 +19,8 @@
     "build": "tsup",
     "dev": "tsup --watch",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "prepare": "npm run build"
   },
   "dependencies": {
     "zod": "^4.4.3"
