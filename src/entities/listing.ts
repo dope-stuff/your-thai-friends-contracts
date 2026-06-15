@@ -6,7 +6,23 @@ import { ListingType, PriceUnit, ListingStatus, Currency } from "../enums";
    The discriminant is the parent `listing.type`, so we expose a lookup rather
    than a discriminated union. Validate in the service: detailsSchemaFor(type). */
 
-export const StayDetails = z.object({
+/** The friend's "perfect if you… / maybe not if…" fit guidance. */
+export const ListingFit = z.object({
+  perfect: z.string().optional(),
+  notFor: z.string().optional(),
+});
+export type ListingFit = z.infer<typeof ListingFit>;
+
+/** Editorial fields shared across all listing types (the prototype's stay
+ *  cards: the friend's opinion, fit, "right nearby", and the guide perk). */
+export const SharedDetails = z.object({
+  opinion: z.string().optional(),
+  fit: ListingFit.optional(),
+  nearby: z.array(z.string()).default([]),
+  includesGuide: z.boolean().optional(),
+});
+
+export const StayDetails = SharedDetails.extend({
   maxGuests: z.number().int().positive().optional(),
   bedrooms: z.number().int().nonnegative().optional(),
   beds: z.number().int().nonnegative().optional(),
@@ -16,7 +32,7 @@ export const StayDetails = z.object({
 });
 export type StayDetails = z.infer<typeof StayDetails>;
 
-export const ExperienceDetails = z.object({
+export const ExperienceDetails = SharedDetails.extend({
   durationHours: z.number().positive().optional(),
   groupMax: z.number().int().positive().optional(),
   pickup: z.boolean().optional(),
@@ -24,7 +40,7 @@ export const ExperienceDetails = z.object({
 });
 export type ExperienceDetails = z.infer<typeof ExperienceDetails>;
 
-export const LearnDetails = z.object({
+export const LearnDetails = SharedDetails.extend({
   days: z.number().positive().optional(),
   level: z.string().optional(),
   certification: z.string().optional(),

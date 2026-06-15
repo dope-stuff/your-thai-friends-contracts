@@ -9,7 +9,11 @@ export const PartnerSchema = z.object({
   name: z.string().min(1),
   slug: z.string().min(1),
   bio: z.string().optional(),
+  /** Short role line, e.g. "Raft-house host, born and raised on the River Kwai". */
+  role: z.string().optional(),
   location: z.string().optional(),
+  /** Home destination — drives the per-destination "people" section. */
+  destinationId: id.optional(),
   geo: GeoPoint.optional(),
   avatar: MediaRef.optional(),
   cover: MediaRef.optional(),

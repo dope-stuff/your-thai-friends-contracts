@@ -8,6 +8,16 @@ Consumers pin a tag (e.g. `#v0.1.0`), so **every change must bump the version an
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-06-15
+
+### Added
+- Destination editorial fields for the destination landing-page template: `tagline`, `about`,
+  `tags`, `highlights` (DestinationHighlight), `places` (DestinationPlace), `gettingHere`,
+  `seasonality` (SeasonMonth).
+- `Partner.role` and `Partner.destinationId` (drives the per-destination "people" section).
+- Shared listing detail fields (`SharedDetails`: `opinion`, `fit` (ListingFit), `nearby`,
+  `includesGuide`) merged into Stay/Experience/Learn details — matches the prototype stay cards.
+
 ## [0.5.0] - 2026-06-15
 
 ### Added
@@ -64,7 +74,8 @@ Consumers pin a tag (e.g. `#v0.1.0`), so **every change must bump the version an
 - Dual ESM+CJS build with type declarations via `tsup`.
 - Canonical system spec `ARCHITECTURE.md`.
 
-[Unreleased]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.3.0...v0.4.0
