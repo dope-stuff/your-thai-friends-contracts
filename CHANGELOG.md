@@ -8,6 +8,12 @@ Consumers pin a tag (e.g. `#v0.1.0`), so **every change must bump the version an
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-06-15
+
+### Added
+- `Profile` entity — app-specific user data kept out of the auth user table, linked one-way
+  (`profile → user`) so the users-permissions user content type is never modified.
+
 ## [0.4.1] - 2026-06-15
 
 ### Added
@@ -58,7 +64,8 @@ Consumers pin a tag (e.g. `#v0.1.0`), so **every change must bump the version an
 - Dual ESM+CJS build with type declarations via `tsup`.
 - Canonical system spec `ARCHITECTURE.md`.
 
-[Unreleased]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.4.1...HEAD
+[Unreleased]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.2.0...v0.3.0

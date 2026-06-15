@@ -4,6 +4,7 @@ export * from "./common";
 
 // Entities
 export * from "./entities/user";
+export * from "./entities/profile";
 export * from "./entities/partner";
 export * from "./entities/destination";
 export * from "./entities/listing";
