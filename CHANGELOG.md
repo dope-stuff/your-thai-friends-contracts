@@ -8,6 +8,12 @@ Consumers pin a tag (e.g. `#v0.1.0`), so **every change must bump the version an
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-06-16
+
+### Added
+- `Vibe` editorial fields (`tagline`, `about`, `tags`, `highlights`, `places`, `seasonality`) so the
+  vibe detail page can use the same rich landing template as a destination.
+
 ## [0.6.0] - 2026-06-15
 
 ### Added
@@ -74,7 +80,8 @@ Consumers pin a tag (e.g. `#v0.1.0`), so **every change must bump the version an
 - Dual ESM+CJS build with type declarations via `tsup`.
 - Canonical system spec `ARCHITECTURE.md`.
 
-[Unreleased]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.4.1...v0.5.0
 [0.4.1]: https://github.com/your-thai-friends/your-thai-friends-contracts/compare/v0.4.0...v0.4.1
