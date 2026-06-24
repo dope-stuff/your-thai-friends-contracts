@@ -88,7 +88,10 @@ export const ListingSchema = z.object({
   /** Non-filtered, type-specific long tail. Validate via detailsSchemaFor(type). */
   details: z.record(z.string(), z.unknown()).optional(),
 
-  status: ListingStatus,
+  // Own publish flag. NOT named `status` — Strapi v5 reserves `status` for the
+  // draft/published document param, so a field named `status` can't be filtered
+  // via the REST/document API (same fix as partnerStatus).
+  listingStatus: ListingStatus,
   locale: z.string().optional(),
   ...timestamps,
 });
