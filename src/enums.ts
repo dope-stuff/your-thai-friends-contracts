@@ -4,8 +4,9 @@ import { z } from "zod";
 export const Role = z.enum(["traveller", "host", "admin"]);
 export type Role = z.infer<typeof Role>;
 
-/** The three product verticals. */
-export const ListingType = z.enum(["stay", "experience", "learn"]);
+/** Product verticals. `transport` = bookable transfers (bus+ferry bundles);
+ *  hidden from the stay/experience/learn browse grids by construction. */
+export const ListingType = z.enum(["stay", "experience", "learn", "transport"]);
 export type ListingType = z.infer<typeof ListingType>;
 
 /** How a listing's price is expressed. */

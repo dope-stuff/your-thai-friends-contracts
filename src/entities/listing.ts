@@ -48,10 +48,23 @@ export const LearnDetails = SharedDetails.extend({
 });
 export type LearnDetails = z.infer<typeof LearnDetails>;
 
+export const TransportDetails = SharedDetails.extend({
+  // Bus+ferry transfer bundle. Operator (e.g. Boonsiri) is internal context.
+  transfer: z
+    .object({
+      operator: z.string().optional(),
+      from: z.string().optional(),
+      oneWay: z.boolean().optional(),
+    })
+    .optional(),
+});
+export type TransportDetails = z.infer<typeof TransportDetails>;
+
 export const ListingDetailsByType = {
   stay: StayDetails,
   experience: ExperienceDetails,
   learn: LearnDetails,
+  transport: TransportDetails,
 } as const;
 
 /** Pick the details schema for a listing type — use in the write path. */
