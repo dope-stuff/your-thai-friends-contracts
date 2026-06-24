@@ -20,7 +20,7 @@ export const PartnerSchema = z.object({
   socials: Socials.optional(),
   /** Marketplace commission, 0..1 (e.g. 0.15). Payout ledger deferred. */
   commissionRate: z.number().min(0).max(1).optional(),
-  status: PartnerStatus,
+  partnerStatus: PartnerStatus,
   /** The host User who owns this partner record. */
   ownerUserId: id.optional(),
   locale: z.string().optional(),
