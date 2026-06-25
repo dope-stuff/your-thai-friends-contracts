@@ -10,7 +10,8 @@ import { TransactionKind, TransactionStatus, Currency } from "../enums";
 export const TransactionSchema = z.object({
   id,
   kind: TransactionKind,
-  status: TransactionStatus.default("pending"),
+  // NOT named `status` — Strapi v5 reserves `status` (same fix as listingStatus).
+  transactionStatus: TransactionStatus.default("pending"),
   bookingId: id.optional(),
   partnerId: id.optional(),
   currency: Currency.default("THB"),

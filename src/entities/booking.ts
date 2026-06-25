@@ -17,7 +17,9 @@ export const BookingSchema = z.object({
   contactPhone: z.string().min(1),
   listingId: id,
   partnerId: id,
-  status: BookingStatus,
+  // NOT named `status` — Strapi v5 reserves `status` for the draft/published
+  // document param (same fix as partnerStatus / listingStatus).
+  bookingStatus: BookingStatus,
   /** Human-friendly date label, e.g. "14–18 Mar 2026". */
   dates: z.string().optional(),
   startDate: z.string().date().optional(),
