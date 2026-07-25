@@ -8,6 +8,37 @@ Consumers pin a tag (e.g. `#v0.1.0`), so **every change must bump the version an
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-07-25
+
+### Added
+- `dto/partner`: `PartnerRespondInput`, `PartnerDecisionInput`, `PartnerDecisionAction`,
+  `GuestAlternativesRespondInput`, `GuestAlternativeDecisionInput` — the partner confirm and guest
+  accept/decline payloads, which until now were hand-validated in the backend controller with no
+  shared type. Covers cross-property offers (`listingId`) and host discounts (`discount`).
+- `dto/cancellation`: `BookingCancelInput`.
+- `policy/cancellation`: `cancellationTerms()`, `cancellationSummary()`, `CANCELLATION_CUTOFF_DAYS`,
+  `CANCELLATION_REFUND_RATE` — 50% refunded until 3 days before the start date, nothing after. Kept
+  here so checkout copy, the booking page, and server-side enforcement quote one number.
+
+- `bookingItemRef` — one booking within a trip (`YTF-260461-1`). `bookingRef` only ever matched the
+  trip reference, so anything acting on a single booking needs this.
+
+### Fixed
+- `BookingStatus` was missing `rejected`, `paid`, `expired` and `alternative_proposed`, so it
+  rejected states the database has held since the enquiry-window work.
+
+## [0.8.0] - 2026-06-24
+
+Tagged but never released (`package.json` and this file were left at 0.7.0); recorded here so the
+tag isn't a mystery.
+
+### Changed
+- Renamed `status` → `bookingStatus` / `transactionStatus` / `partnerStatus` / `listingStatus`,
+  matching the backend rename (`status` is reserved by Strapi's draft/publish param).
+
+### Added
+- `transport` listing type.
+
 ## [0.7.0] - 2026-06-16
 
 ### Added

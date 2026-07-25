@@ -21,12 +21,20 @@ export type PriceUnit = z.infer<typeof PriceUnit>;
 export const ListingStatus = z.enum(["draft", "published", "archived"]);
 export type ListingStatus = z.infer<typeof ListingStatus>;
 
-/** Enquiry/booking lifecycle. v1 is enquiry-first (no charge). */
+/**
+ * Enquiry/booking lifecycle. Mirrors the backend `bookingStatus` enum exactly —
+ * these had drifted apart, so anything validating against this was silently
+ * rejecting states the database can actually hold.
+ */
 export const BookingStatus = z.enum([
   "pending",
   "confirmed",
+  "rejected",
+  "paid",
   "completed",
   "cancelled",
+  "expired",
+  "alternative_proposed",
 ]);
 export type BookingStatus = z.infer<typeof BookingStatus>;
 

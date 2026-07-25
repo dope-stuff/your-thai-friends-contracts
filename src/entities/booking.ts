@@ -2,11 +2,25 @@ import { z } from "zod";
 import { id, timestamps } from "../common";
 import { BookingStatus, BookingWhen } from "../enums";
 
-/** Reservation reference, e.g. `YTF-4821`. Generated server-side. */
+/** Trip (enquiry) reference, e.g. `YTF-260461`. Generated server-side. This is
+ *  the reference a guest is shown and types into "find my booking". */
 export const bookingRef = z
   .string()
   .regex(/^YTF-[A-Z0-9]+$/, "Reference must look like YTF-XXXX.");
 export type BookingRef = z.infer<typeof bookingRef>;
+
+/**
+ * A single booking within a trip, e.g. `YTF-260461-1`.
+ *
+ * One enquiry becomes one booking per item, each suffixed `-N`. Anything acting
+ * on an individual booking — a partner's per-item decision, a guest accepting
+ * one alternative, a cancellation — carries this, not the trip ref. The plain
+ * trip ref is still accepted, since a single-item trip is addressed either way.
+ */
+export const bookingItemRef = z
+  .string()
+  .regex(/^YTF-[A-Z0-9]+(-\d+)?$/, "Reference must look like YTF-XXXX or YTF-XXXX-1.");
+export type BookingItemRef = z.infer<typeof bookingItemRef>;
 
 export const BookingSchema = z.object({
   id,
