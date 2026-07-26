@@ -8,6 +8,16 @@ Consumers pin a tag (e.g. `#v0.1.0`), so **every change must bump the version an
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-07-26
+
+### Added
+- `EnquiryItemInput.pickupLocation` / `.noPickup` — where to collect the guest, **per item**. A trip
+  can hold bookings in different destinations, so a single trip-level address would be wrong the
+  moment someone books a Phuket boat day and a Chiang Mai class together. The checkout offers a
+  "same for all" shortcut, but still sends one value per item.
+- `dto/pickup`: `BookingPickupUpdateInput` — change the pickup point after booking, authorized like
+  any other guest action on a booking (session, or ref + email).
+
 ## [0.9.0] - 2026-07-25
 
 ### Added

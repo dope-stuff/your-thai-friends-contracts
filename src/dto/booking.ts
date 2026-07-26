@@ -20,6 +20,15 @@ export const EnquiryItemInput = z.object({
   startDate: z.string().date().optional(),
   endDate: z.string().date().optional(),
   guests: z.string().optional(),
+  /**
+   * Where to collect this guest. Per item rather than per trip: a trip can hold
+   * a Phuket boat day and a Chiang Mai class, and one address can't serve both.
+   * The checkout offers a "same for all" shortcut, but what it sends is still
+   * one value per item.
+   */
+  pickupLocation: z.string().max(200).optional(),
+  /** Set when the guest is making their own way there. */
+  noPickup: z.boolean().optional(),
 });
 export type EnquiryItemInput = z.infer<typeof EnquiryItemInput>;
 
