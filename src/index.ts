@@ -13,6 +13,7 @@ export * from "./entities/guide";
 export * from "./entities/itinerary";
 export * from "./entities/booking";
 export * from "./entities/transaction";
+export * from "./entities/payment-event";
 export * from "./entities/cart";
 export * from "./entities/saved";
 export * from "./entities/newsletter";
@@ -25,3 +26,4 @@ export * from "./dto/pickup";
 
 // Shared business rules (kept here so both apps quote the same numbers)
 export * from "./policy/cancellation";
+export * from "./policy/tax";

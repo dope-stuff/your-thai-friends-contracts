@@ -67,3 +67,38 @@ export type TransactionKind = z.infer<typeof TransactionKind>;
 
 export const TransactionStatus = z.enum(["pending", "settled", "void"]);
 export type TransactionStatus = z.infer<typeof TransactionStatus>;
+
+/**
+ * Every kind of money event the ledger records. Attempt/outcome pairs by design:
+ * an attempt with no matching outcome means the process died mid-gateway-call,
+ * which is otherwise invisible. See the backend's `docs/money-ledger.md`.
+ */
+export const PaymentEventType = z.enum([
+  "authorization_attempted",
+  "authorized",
+  "authorization_failed",
+  "capture_attempted",
+  "captured",
+  "capture_failed",
+  "release_attempted",
+  "released",
+  "release_failed",
+  "upcharge_authorization_attempted",
+  "upcharge_authorized",
+  "upcharge_authorization_failed",
+  "upcharge_capture_attempted",
+  "upcharge_captured",
+  "upcharge_capture_failed",
+  "refund_attempted",
+  "refunded",
+  "refund_failed",
+  "refund_owed_uncollectable",
+  "fee_recorded",
+  "adjustment",
+  "capture_unverified",
+]);
+export type PaymentEventType = z.infer<typeof PaymentEventType>;
+
+/** What `gatewayRef` points at on a payment event. */
+export const GatewayRefType = z.enum(["authorization", "charge", "refund", "none"]);
+export type GatewayRefType = z.infer<typeof GatewayRefType>;
