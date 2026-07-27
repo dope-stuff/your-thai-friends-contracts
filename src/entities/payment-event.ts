@@ -35,7 +35,13 @@ export const PaymentEventSchema = z.object({
   bookingId: id.optional(),
   enquiryId: id.optional(),
   partnerId: id.optional(),
-  /** Partner's commission rate at the time, so the split stays reproducible. */
+  /**
+   * Partner's commission rate at the time, so the split stays reproducible.
+   *
+   * **Private in Strapi — admin surfaces only.** It is margin data: it states
+   * what YTF takes from a partner. Optional here because it is absent from every
+   * non-admin response rather than because it may be unset.
+   */
   commissionRateSnapshot: z.number().min(0).max(1).optional(),
   /** Sale VAT rate at the time. Currently 0 — YTF is not VAT-registered. */
   saleVatRateSnapshot: z.number().min(0).max(1).optional(),
