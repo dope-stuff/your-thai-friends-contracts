@@ -56,17 +56,10 @@ export type SavedKind = z.infer<typeof SavedKind>;
 export const Currency = z.enum(["THB"]);
 export type Currency = z.infer<typeof Currency>;
 
-/** Ledger entry kind for billing/commission. */
-export const TransactionKind = z.enum([
-  "booking_commission",
-  "payout",
-  "refund",
-  "adjustment",
-]);
-export type TransactionKind = z.infer<typeof TransactionKind>;
-
-export const TransactionStatus = z.enum(["pending", "settled", "void"]);
-export type TransactionStatus = z.infer<typeof TransactionStatus>;
+/* TransactionKind / TransactionStatus removed in v0.13.0 — the `transaction`
+ * content type is retired. Every figure it held is derived from `payment-event`
+ * (which carries commissionRateSnapshot) plus `payout`. See the backend's
+ * docs/money-ledger.md §4a. */
 
 /**
  * Every kind of money event the ledger records. Attempt/outcome pairs by design:
