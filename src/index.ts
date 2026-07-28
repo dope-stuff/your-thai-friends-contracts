@@ -24,6 +24,7 @@ export * from "./dto/partner";
 export * from "./dto/cancellation";
 export * from "./dto/pickup";
 export * from "./dto/ledger";
+export * from "./dto/three-ds";
 
 // Shared business rules (kept here so both apps quote the same numbers)
 export * from "./policy/cancellation";
