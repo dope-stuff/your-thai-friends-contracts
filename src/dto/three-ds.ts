@@ -16,10 +16,29 @@ import { z } from "zod";
  * guest simply has somewhere to go first.
  */
 export const ThreeDsRedirect = z.object({
-  /** Beam's hosted challenge page. Send the browser here. */
+  /** Beam's hosted challenge page. Open it — in a popup, ideally (see `token`). */
   redirectUrl: z.string().url(),
   /** Present on the upcharge path: which booking the challenge is for. */
   ref: z.string().optional(),
+  /**
+   * The same signed token the gateway's `returnUrl` carries, handed to the
+   * caller up front so it can settle the attempt **without** depending on the
+   * gateway redirecting the browser back.
+   *
+   * Why it exists: Beam's challenge page finalizes against a *charge*, and an
+   * authorization has none until capture, so the page 400s ("charge is not
+   * finalized") and the guest is never returned — verified twice against real
+   * authorizations that were `AUTHORIZED` at the gateway the whole time. With
+   * the token in hand the opener can open the challenge in a popup and poll the
+   * return endpoint itself, so a broken redirect costs nothing.
+   *
+   * No new exposure: this token already travels through the guest's browser in
+   * the `returnUrl`. It is single-purpose and settles only its own attempt.
+   *
+   * Optional so a client on a newer contract still works against a backend that
+   * doesn't send it — fall back to a full-page redirect when it's absent.
+   */
+  token: z.string().optional(),
 });
 export type ThreeDsRedirect = z.infer<typeof ThreeDsRedirect>;
 
