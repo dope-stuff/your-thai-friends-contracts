@@ -38,6 +38,23 @@ Consumers pin a tag (e.g. `#v0.1.0`), so **every change must bump the version an
   that reach for fields by name. The cost is that a `.parse()` strips undeclared keys, so a new
   generator field must be added here first; the 69-row check above is how you confirm it.
 
+### Fixed
+- **`EnquiryCreateInput` was missing the fields that set the price.** `roomType`, `rooms` and `pax`
+  on each item, and `cardTokenId` on the body, were sent by the web checkout and used by the backend
+  for months while absent from this schema — so `safeParse` stripped them, and *both* the BFF
+  (`app/api/enquiry/route.ts`) and the backend handler re-read them off the raw request body by array
+  index. The endpoint's "defense in depth" validation was therefore validating a shape no client
+  sends, and which room, how many rooms, how many people, and the card token reached the money path
+  unvalidated. Both workarounds are deleted now that the contract carries them.
+  - The new fields are **deliberately tolerant** (`z.coerce.number().positive().optional().catch()`),
+    reproducing the hand-rolled normalization exactly: `0`, a negative, an unparseable string or the
+    wrong type becomes `undefined` rather than a 400. Verified across all 4,913 combinations of a
+    17-value matrix — **zero behavioural differences**, which is the bar for changing an endpoint
+    that authorizes cards.
+  - `cardSecurityCode` (the CVV) is deliberately NOT added. It is used for one Beam authorize call
+    and never persisted; keeping it out of the shared schema keeps it out of the types and error
+    dumps built from it. It stays a raw-body passthrough, now the only one.
+
 ### Note
 - Tags `v0.11.0` through `v0.15.0` exist with no changelog entries. Not reconstructed here — the
   history is in the diffs, and guessing at it would be worse than the gap.
