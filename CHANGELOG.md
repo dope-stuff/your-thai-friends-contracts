@@ -8,6 +8,41 @@ Consumers pin a tag (e.g. `#v0.1.0`), so **every change must bump the version an
 
 ## [Unreleased]
 
+## [0.16.0] - 2026-08-18
+
+### Changed
+- **The listing `details` schemas now describe what is actually stored.** They had drifted into
+  fiction, and because nothing imported them, nothing caught it:
+  - `StayDetails` had no `rooms` at all — the field that drives room selection, per-room pricing and
+    the `listing::roomType` cart line key.
+  - `LearnDetails.certification` was a `string`; every real course stores an object.
+  - `ExperienceDetails.includes` never existed under that name (`included` does), and `pickup` was a
+    boolean where the app derives hotel pickup by matching text.
+  - `bedrooms`, `beds`, and details-level `checkIn` / `checkOut` / `maxGuests` appeared in no row
+    anywhere. Removed.
+  - Missing entirely: `rooms`, `hostNote`, `honest`, `personas`, `booking`, `roomMax`, `minNights`,
+    `gallery`, `videos`, `tags`, `priceSub`, `locationLine`, `about`, `itinerary`, `curriculum`,
+    `instructor`, `stayWith`, `faq`, and the card-only `bullets` / `departFrom` / `groupLabel` /
+    `durationLabel`.
+- **Verified against a seeded database, not by reading the code.** All 69 listings (9 stays, 22
+  experiences, 34 courses, 4 transfers) parse clean, and no row loses a key on parse. That check
+  caught two things review had not: `places` and `languages` are comma-joined **strings**, not
+  arrays, and every dive course carries a `durationLabel` that the schema was about to strip.
+- New exported building blocks: `HostNote`, `HonestNotes`, `Persona`, `StayRoom`, `CurriculumDay`,
+  `ExperienceItineraryStop`, `EditorialDetails`. The experience stop is named apart from the trip
+  planner's `ItineraryStop`, which is a different concept that shares the word.
+- Arrays are `.optional()` rather than `.default([])`, so a parsed shape matches what is stored
+  instead of inventing empty arrays the database does not have.
+- **These are deliberately not `.loose()`.** A loose object infers an index signature, which makes
+  `d.hostnote` compile as `unknown` instead of failing — and the consumers are render components
+  that reach for fields by name. The cost is that a `.parse()` strips undeclared keys, so a new
+  generator field must be added here first; the 69-row check above is how you confirm it.
+
+### Note
+- Tags `v0.11.0` through `v0.15.0` exist with no changelog entries. Not reconstructed here — the
+  history is in the diffs, and guessing at it would be worse than the gap.
+
+
 ## [0.10.0] - 2026-07-26
 
 ### Added
