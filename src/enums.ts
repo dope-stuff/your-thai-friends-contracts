@@ -5,8 +5,21 @@ export const Role = z.enum(["traveller", "host", "admin"]);
 export type Role = z.infer<typeof Role>;
 
 /** Product verticals. `transport` = bookable transfers (bus+ferry bundles);
- *  hidden from the stay/experience/learn browse grids by construction. */
-export const ListingType = z.enum(["stay", "experience", "learn", "transport"]);
+ *  hidden from the stay/experience/learn browse grids by construction.
+ *
+ *  `journey` = a curated multi-day trip on fixed departure dates, authored by us
+ *  rather than composed from existing listings. Sold per person, with tiers (a
+ *  4-day and a 7-day exit from the same group) carried in `details.tiers`. See
+ *  `JourneyDetails` in `entities/listing.ts`. Deliberately NOT called
+ *  `experience` (taken by this enum), `trip` (the cart) or `itinerary` (the
+ *  user-built planner). */
+export const ListingType = z.enum([
+  "stay",
+  "experience",
+  "learn",
+  "transport",
+  "journey",
+]);
 export type ListingType = z.infer<typeof ListingType>;
 
 /** How a listing's price is expressed. */

@@ -277,11 +277,124 @@ export const TransportDetails = SharedDetails.extend({
 });
 export type TransportDetails = z.infer<typeof TransportDetails>;
 
+/** One tier of a journey — the same idea as `StayRoom`, and it rides the same
+ *  rail: the chosen tier's name is stored in `booking.roomType`, the cart line
+ *  is keyed `listing::roomType`, and `roomPriceFor` resolves the price
+ *  server-side. It is NOT stored under `details.rooms`, because a 7-day journey
+ *  is not a room; the booking controller's lookups read `rooms ?? tiers`. */
+export const JourneyTier = z.object({
+  /** Shown to the guest and stored verbatim in `booking.roomType`. */
+  name: z.string(),
+  /** Priced ⇒ bookable, exactly as rooms work. */
+  price: z.number().nonnegative().optional(),
+  /** Calendar days and nights this tier covers ("4 days, 3 nights"). `days`
+   *  also scopes the day grid: a tier shows `JourneyDay`s up to this number. */
+  days: z.number().int().positive().optional(),
+  nights: z.number().int().nonnegative().optional(),
+  /** Max travellers on ONE booking of this tier. This is a party-size cap, not
+   *  the departure's seat cap — that is `groupMax`. Read by `capacityFor`. */
+  maxGuests: z.number().int().positive().optional(),
+  blurb: z.string().optional(),
+});
+export type JourneyTier = z.infer<typeof JourneyTier>;
+
+/** One line in a day's morning/afternoon/evening cell. `tiers` scopes the line
+ *  to named tiers; absent means every tier. This exists because the split day
+ *  reads differently per tier — one tier checks out and transfers to the pier
+ *  while the other has a free day — and that is one cell in the source grid. */
+export const JourneyDayItem = z.object({
+  text: z.string(),
+  tiers: z.array(z.string()).optional(),
+});
+export type JourneyDayItem = z.infer<typeof JourneyDayItem>;
+
+/** One day of the journey. `tiers` scopes the WHOLE day (the days only the
+ *  longer tier gets); per-line scoping lives on `JourneyDayItem`. */
+export const JourneyDay = z.object({
+  day: z.number().int().positive(),
+  theme: z.string(),
+  tiers: z.array(z.string()).optional(),
+  morning: z.array(JourneyDayItem).optional(),
+  afternoon: z.array(JourneyDayItem).optional(),
+  evening: z.array(JourneyDayItem).optional(),
+});
+export type JourneyDay = z.infer<typeof JourneyDay>;
+
+/** A themed group of what the journey gives you ("Island Highlights", "Fully
+ *  taken care of"), rendered above the day grid. */
+export const JourneyPillar = z.object({
+  title: z.string(),
+  blurb: z.string().optional(),
+  items: z.array(z.string()).optional(),
+});
+export type JourneyPillar = z.infer<typeof JourneyPillar>;
+
+/** The one activity a guest picks between. **Decided on the island, not at
+ *  booking** — nothing here is a booking field, and no option carries a price.
+ *  The enquiry note is where a guest states an initial preference. */
+export const JourneyChoice = z.object({
+  title: z.string(),
+  /** Which day the choice falls on, so the page can mark it in the grid. */
+  day: z.number().int().positive().optional(),
+  note: z.string().optional(),
+  options: z.array(
+    z.object({ name: z.string(), blurb: z.string().optional() })
+  ),
+});
+export type JourneyChoice = z.infer<typeof JourneyChoice>;
+
+/** ⚠️ **The one details schema written BEFORE its data exists.** Every other
+ *  shape in this file was rewritten against seeded rows, under the rule that a
+ *  field must exist in real data to belong here. A brand-new listing type has
+ *  no rows to check, and the file's other rule applies instead: the schema goes
+ *  in first, then the seed writes against it. **Re-run the parse check once the
+ *  first journey is seeded** — these are strict, not loose, so a key the seed
+ *  writes and this omits is silently STRIPPED on parse. */
+export const JourneyDetails = EditorialDetails.extend({
+  overviewTitle: z.string().optional(),
+  overview: z.array(z.string()).optional(),
+  tiers: z.array(JourneyTier).optional(),
+  days: z.array(JourneyDay).optional(),
+  pillars: z.array(JourneyPillar).optional(),
+  choice: JourneyChoice.optional(),
+  /** Fixed departure dates, ISO `YYYY-MM-DD`, as a plain list. Deliberately
+   *  NOT per-departure records: nothing counts seats across bookings anywhere
+   *  in the system, so a departure has no per-date state to hold yet. Capacity
+   *  is held by hand at confirm time. Promote to records when a journey needs
+   *  one date sold out, cancelled, or priced apart from the others. */
+  departures: z.array(z.string()).optional(),
+  /** Seat cap for a whole departure — distinct from `listing.maxGuests`, which
+   *  is the per-booking party size, and from `JourneyTier.maxGuests`. Nothing
+   *  enforces this; it is displayed, and counted by hand when we confirm. */
+  groupMax: z.number().int().positive().optional(),
+  /** Where we collect guests, at no extra charge. The guest's pick is stored in
+   *  `booking.pickupLocation`, which already exists and stays editable after
+   *  booking — useful here, since guests choose once their flight is booked. */
+  origins: z.array(z.string()).optional(),
+  /** What the price covers, and what it doesn't. `notIncluded` is not optional
+   *  editorially even though it is here: a journey's inclusions are conditional
+   *  (one dinner depends on the activity chosen), and leaving that unsaid is
+   *  what makes a guest feel short-changed at the table. */
+  included: z.array(z.string()).optional(),
+  notIncluded: z.array(z.string()).optional(),
+  bring: z.array(z.string()).optional(),
+  faq: z.array(z.object({ q: z.string(), a: z.string() })).optional(),
+  booking: z
+    .looseObject({
+      note: z.string().optional(),
+      groupSize: z.string().optional(),
+      meetingPoint: z.string().optional(),
+    })
+    .optional(),
+});
+export type JourneyDetails = z.infer<typeof JourneyDetails>;
+
 export const ListingDetailsByType = {
   stay: StayDetails,
   experience: ExperienceDetails,
   learn: LearnDetails,
   transport: TransportDetails,
+  journey: JourneyDetails,
 } as const;
 
 /** Pick the details schema for a listing type — use in the write path. */

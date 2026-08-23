@@ -8,6 +8,40 @@ Consumers pin a tag (e.g. `#v0.1.0`), so **every change must bump the version an
 
 ## [Unreleased]
 
+## [0.17.0] - 2026-08-23
+
+### Added
+- **New listing type `journey`** — a curated multi-day trip on fixed departure dates, authored by
+  us rather than composed from existing listings, sold per person. Deliberately not called
+  `experience` (already a `ListingType`), `trip` (the cart) or `itinerary` (the user-built planner).
+- **`JourneyDetails`**, plus `JourneyTier`, `JourneyDay`, `JourneyDayItem`, `JourneyPillar` and
+  `JourneyChoice`, wired into `ListingDetailsByType` so `detailsSchemaFor("journey")` resolves.
+
+### Notes for implementers
+- **Tiers ride the existing `roomType` rail.** A journey's tiers (a 4-day and a 7-day exit from the
+  same group) are `details.tiers`, and the chosen tier's `name` is stored in `booking.roomType` —
+  the field already threaded through the cart line key (`listing::roomType`), the enquiry payload,
+  the partner confirm screen, the alternatives flow, the trip ticket, find-booking and verify. The
+  backend's `roomFor` / `roomPriceFor` / `capacityFor` must be generalised to read
+  `details.rooms ?? details.tiers`; nothing else changes.
+- **Not `details.rooms`.** A 7-day journey is not a room. These schemas are strict, not loose, and
+  were rewritten in 0.16.0 precisely because they had drifted into describing things no row held.
+- **This is the one details schema written before its data exists.** Every other shape here was
+  verified against seeded rows. A brand-new type has no rows, so the file's other rule applies —
+  schema first, then the seed writes against it. It was checked instead against the full source
+  deck for the first journey (7 days, 2 tiers, the split day, 3 pillars, the on-island choice):
+  parses clean with **no keys stripped**. Re-run that check against the seeded row once it lands.
+- **`departures` is a plain list of ISO dates, and `groupMax` is display-only.** Nothing in the
+  system counts seats across bookings — availability is resolved by the partner confirming or
+  rejecting an enquiry — so a departure has no per-date state to hold, and capacity is held by
+  hand at confirm time. Promote to per-departure records when a journey needs one date sold out,
+  cancelled, or priced apart from the rest.
+- **Three different caps, deliberately distinct:** `listing.maxGuests` = party size per booking,
+  `JourneyTier.maxGuests` = the same but per tier (read by `capacityFor`), `details.groupMax` = the
+  seat cap for a whole departure.
+- **The on-island choice is not a booking field.** Scuba / freedive / cooking is picked during the
+  trip; no option carries a price, and the enquiry note is where a guest states a leaning.
+
 ## [0.16.0] - 2026-08-18
 
 ### Changed
