@@ -8,6 +8,12 @@ Consumers pin a tag (e.g. `#v0.1.0`), so **every change must bump the version an
 
 ## [Unreleased]
 
+### Changed
+- **`PartnerSchema.commissionRate` documented as server-only.** The field is `private: true` in
+  Strapi (2026-08-18 privacy fix), so naming it in a REST content-API `fields`, `filters`, `sort`
+  or `populate` query fails with `Invalid key commissionRate`. Doc comment only — the schema
+  shape and types are unchanged.
+
 ## [0.17.0] - 2026-08-23
 
 ### Added
