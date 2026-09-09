@@ -9,6 +9,13 @@ Consumers pin a tag (e.g. `#v0.1.0`), so **every change must bump the version an
 ## [Unreleased]
 
 ### Changed
+- **Ledger DTO header corrected.** The `/api/ledger/*` doc comment claimed these endpoints expose
+  "commission rates". No response carries a rate — they carry amounts in satang, derived from each
+  event's `commissionRateSnapshot`. Doc comment only.
+
+## [0.17.1] - 2026-09-09
+
+### Changed
 - **`PartnerSchema.commissionRate` documented as server-only.** The field is `private: true` in
   Strapi (2026-08-18 privacy fix), so naming it in a REST content-API `fields`, `filters`, `sort`
   or `populate` query fails with `Invalid key commissionRate`. Doc comment only — the schema

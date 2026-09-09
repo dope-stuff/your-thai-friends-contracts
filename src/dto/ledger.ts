@@ -9,9 +9,14 @@ import { PaymentEventType, GatewayRefType, Currency } from "../enums";
  * `SUM()` over these has to be exact and has to tie out to Beam to the satang,
  * and the caller decides how to display it.
  *
- * These endpoints are gated by `global::is-admin` — they expose commission
- * rates, gateway references and cross-partner totals. A host must never reach
- * them; see the backend's `docs/security.md`.
+ * These endpoints are gated by `global::is-admin` — they expose YTF's margin,
+ * gateway references and cross-partner totals. A host must never reach them;
+ * see the backend's `docs/security.md`.
+ *
+ * Amounts only: no response here carries a commission *rate*. The partner's
+ * rate is `private` in Strapi and no endpoint returns it — these figures are
+ * derived from each event's own `commissionRateSnapshot`, so they stay
+ * reproducible after a partner's standing rate changes.
  */
 
 const satang = z.number().int();
