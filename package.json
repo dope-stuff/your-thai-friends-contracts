@@ -1,6 +1,6 @@
 {
   "name": "@ytf/contracts",
-  "version": "0.17.0",
+  "version": "0.17.1",
   "description": "Shared domain types and Zod schemas for Your Thai Friends",
   "type": "module",
   "main": "./dist/index.cjs",
