@@ -56,7 +56,16 @@ export function cancellationTerms(input: {
     };
   }
 
-  const start = new Date(input.startDate);
+  // A bare "YYYY-MM-DD" is a Bangkok calendar day (every booking date in this
+  // system is — see `todayInBangkok`), but `new Date("2026-10-20")` reads it as
+  // midnight UTC, which is 07:00 in Bangkok. The cutoff — and so the end of the
+  // 50% refund — then landed seven hours after the real "3 days before" mark
+  // (L1, review 2026-10-12). Anchor date-only strings to Bangkok midnight; a
+  // full timestamp or a Date is taken as given.
+  const start =
+    typeof input.startDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(input.startDate.trim())
+      ? new Date(`${input.startDate.trim()}T00:00:00+07:00`)
+      : new Date(input.startDate);
   if (Number.isNaN(start.getTime())) {
     return {
       refundable: true,
