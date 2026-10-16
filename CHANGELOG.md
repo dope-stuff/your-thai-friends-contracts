@@ -8,7 +8,10 @@ Consumers pin a tag (e.g. `#v0.1.0`), so **every change must bump the version an
 
 ## [Unreleased]
 
+## [0.17.2] - 2026-10-16
+
 ### Changed
+- **Cancellation cutoff uses Bangkok midnight.** A date-only start date is now anchored to 00:00 Asia/Bangkok (+07:00) instead of UTC, so `cancellationTerms` flips at the right local moment.
 - **Ledger DTO header corrected.** The `/api/ledger/*` doc comment claimed these endpoints expose
   "commission rates". No response carries a rate — they carry amounts in satang, derived from each
   event's `commissionRateSnapshot`. Doc comment only.
